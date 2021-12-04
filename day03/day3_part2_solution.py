@@ -1,4 +1,3 @@
-# from bitstring import BitArray
 
 nums = []
 
@@ -8,7 +7,7 @@ with open("day3_input.txt") as f:
         nums.append(line)
 
 f.close()
-print(nums[0:10])
+# print(nums[0:10])
 
 sums = {}
 
@@ -44,7 +43,7 @@ oxygen_rating = []
 co2_rating = []
 
 for num in nums:
-    if num[0] == gamma_rate[0]:
+    if num[0] == '0':
         oxygen_rating.append(num)
     else:
         co2_rating.append(num)
@@ -55,39 +54,45 @@ print(f"oxygen_rating length = {len(oxygen_rating)}")
 pointer = 1
 sums_oxygen = {}
 while len(oxygen_rating) >= 1 and pointer <= 11:
+    print("#################  BEGIN  ######################")
     length = len(oxygen_rating)
+    print(f"length = {length}")
+    print(f"pointer = {pointer}")
     for num in oxygen_rating:
         if num[pointer] == '1':
+            # print(num)
             if pointer in sums_oxygen:
                 sums_oxygen[pointer] += 1
             else:
                 sums_oxygen[pointer] = 1
+    print("*"*10)
+    print(f"sums_oxygen = {sums_oxygen}")
     # if ones are more prevalent:
     if sums_oxygen[pointer] >= length//2:
         print(f"sums_oxygen[pointer] = {sums_oxygen[pointer]}")
         print(f"length//2 = {length//2}")
         for num in oxygen_rating:
             if num[pointer] == '0':
+                print(num)
                 oxygen_rating.remove(num)
+        print(f"we removed zeros length of oxygen_rating = {len(oxygen_rating)}")
     else:
+        print(f"we are in the else block, ones about to be removed")
         for num in oxygen_rating:
             if num[pointer] == '1':
                 oxygen_rating.remove(num)
 
     pointer += 1
 
-        # for x in range(1, 12):
-        #     print(x)
-            # if num[x] != gamma_rate[x]:
-            #     oxygen_rating.remove(num)
+        
 print(pointer)
 print(f"oxygen_rating = {oxygen_rating}")
 # print(f"co2_rating = {co2_rating}")
 
 
 
-# gamma =  int(gamma_rate,2)
-# epsilon =  int(epsilon_rate,2)
+# oxygen =  int(oxygen_rating,2)
+# c02 =  int(co2_rating,2)
 
-# solution = gamma*epsilon
+# solution = oxygen*c02
 # print(f"solution = {solution}")
