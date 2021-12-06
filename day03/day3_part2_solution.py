@@ -73,7 +73,7 @@ while len(oxygen_rating) >= 1 and pointer <= 11:
         print(f"length//2 = {length//2}")
         for num in oxygen_rating:
             if num[pointer] == '0':
-                print(num)
+                # print(num)
                 oxygen_rating.remove(num)
         print(f"we removed zeros length of oxygen_rating = {len(oxygen_rating)}")
     else:
