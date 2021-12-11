@@ -1,3 +1,7 @@
+import sys
+
+print(sys.argv)
+
 all_nums = []
 drawn_nums_int = []
 
