@@ -9,8 +9,8 @@ def parse_input(input_file):
     f.close()
     return lines
 
-# lines = parse_input("day10_input.txt")
-example = parse_input("example_input.txt")
+lines = parse_input("day10_input.txt")
+# example = parse_input("example_input.txt")
 
 # print(lines[0:10])
 # print(example[0:10])
@@ -35,6 +35,7 @@ def find_corrupted_lines(list_lines):
     total_score = 0
 
     for line in list_lines:
+        print(f"line = {line}")
         for char in line:
             if char in openers:
                 bracket_stack.append(char)
@@ -49,16 +50,24 @@ def find_corrupted_lines(list_lines):
                         total_score += score
                         print(f"total_score = {total_score}")
                         continue
+                    
+                    if bracket_stack[-1] == closers[char]:
+                        bracket_stack.pop()
                     else:
-                        if bracket_stack[-1] == closers[char]:
-                            bracket_stack.pop()
+                        if bracket_stack[-1] != closers[char]:
+                            score = calculate_score(char)
+                            print(f"score = {score}")
+                            total_score += score
+                            print(f"total_score = {total_score}")
+                            break
                 print(f"we're in else, bracket stack = {bracket_stack}")
+        bracket_stack = []
 
     return total_score
             
 
 
-print(find_corrupted_lines(example))
+print(find_corrupted_lines(lines))
 
 # Class Test(unittest.TestCase):
 
