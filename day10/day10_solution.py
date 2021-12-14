@@ -10,7 +10,7 @@ def parse_input(input_file):
     return lines
 
 lines = parse_input("day10_input.txt")
-# example = parse_input("example_input.txt")
+example = parse_input("example_input.txt")
 
 # print(lines[0:10])
 # print(example[0:10])
@@ -35,20 +35,20 @@ def find_corrupted_lines(list_lines):
     total_score = 0
 
     for line in list_lines:
-        print(f"line = {line}")
+        # print(f"line = {line}")
         for char in line:
             if char in openers:
                 bracket_stack.append(char)
                 # print(bracket_stack)
             else:
                 if char in closers:
-                    print(f"we're in closers!")
+                    # print(f"we're in closers!")
                     if not bracket_stack:
-                        print(f"char = {char}")
+                        # print(f"char = {char}")
                         score = calculate_score(char)
-                        print(f"score = {score}")
+                        # print(f"score = {score}")
                         total_score += score
-                        print(f"total_score = {total_score}")
+                        # print(f"total_score = {total_score}")
                         continue
                     
                     if bracket_stack[-1] == closers[char]:
@@ -56,18 +56,75 @@ def find_corrupted_lines(list_lines):
                     else:
                         if bracket_stack[-1] != closers[char]:
                             score = calculate_score(char)
-                            print(f"score = {score}")
+                            # print(f"score = {score}")
                             total_score += score
-                            print(f"total_score = {total_score}")
+                            # print(f"total_score = {total_score}")
                             break
-                print(f"we're in else, bracket stack = {bracket_stack}")
+                # print(f"we're in else, bracket stack = {bracket_stack}")
         bracket_stack = []
 
     return total_score
             
-
-
+# # <<<<<<< PART 1 >>>>>>>
+print(f"PART 1:")
 print(find_corrupted_lines(lines))
+
+def find_incomplete_lines(list_lines):
+
+    openers = {"(": ")", "{": "}", "[": "]", "<": ">"}
+    closers = {")": "(", "}": "{", "]": "[", ">": "<"}
+
+    bracket_stack = []
+
+    to_be_completed = []
+
+    for line in list_lines:
+        # print(f"line = {line}")
+        for char in line:
+            if char in openers:
+                bracket_stack.append(char)
+                # print(bracket_stack)
+            else:
+                if char in closers:
+                    # print(f"we're in closers!")
+                    if not bracket_stack:
+                        continue
+                    
+                    if bracket_stack[-1] == closers[char]:
+                        bracket_stack.pop()
+                    else:
+                        if bracket_stack[-1] != closers[char]:
+                            continue
+                # print(f"we're in else, bracket stack = {bracket_stack}")
+        to_be_completed.append(("").join(bracket_stack))
+        bracket_stack = []
+
+    return to_be_completed
+
+def calculate_score(list_to_complete):
+    openers = {"(": ")", "{": "}", "[": "]", "<": ">"}
+    scores = []
+
+    for item in list_to_complete:
+        score = 0
+        for char in item:
+            character = openers[char]
+            score = (score*5)
+            if character == ')':
+                score += 1
+            if character == ']':
+                score += 2
+            if character == '}':
+                score += 3
+            if character == '>':
+                score += 4
+        scores.append(score)
+    
+    return scores
+
+print(f"PART 2:")
+print(find_incomplete_lines(example))
+print(calculate_score(find_incomplete_lines(example)))
 
 # Class Test(unittest.TestCase):
 
