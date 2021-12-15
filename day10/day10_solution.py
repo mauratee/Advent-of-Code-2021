@@ -10,6 +10,7 @@ def parse_input(input_file):
     return lines
 
 lines = parse_input("day10_input.txt")
+# print(lines)
 example = parse_input("example_input.txt")
 
 # print(lines[0:10])
@@ -67,7 +68,7 @@ def find_corrupted_lines(list_lines):
             
 # # <<<<<<< PART 1 >>>>>>>
 print(f"PART 1:")
-print(find_corrupted_lines(lines))
+print("answer is ", find_corrupted_lines(lines))
 
 def find_incomplete_lines(list_lines):
 
@@ -75,8 +76,8 @@ def find_incomplete_lines(list_lines):
     closers = {")": "(", "}": "{", "]": "[", ">": "<"}
 
     bracket_stack = []
-
     to_be_completed = []
+    completed_reversed = []
 
     for line in list_lines:
         # print(f"line = {line}")
@@ -87,17 +88,20 @@ def find_incomplete_lines(list_lines):
             else:
                 if char in closers:
                     # print(f"we're in closers!")
-                    if not bracket_stack:
-                        continue
-                    
                     if bracket_stack[-1] == closers[char]:
                         bracket_stack.pop()
                     else:
-                        if bracket_stack[-1] != closers[char]:
-                            continue
+                        bracket_stack = []
+                        break
                 # print(f"we're in else, bracket stack = {bracket_stack}")
+        bracket_stack.reverse()
+        # print((bracket_stack))
         to_be_completed.append(("").join(bracket_stack))
         bracket_stack = []
+
+    # for string in to_be_completed:
+    #     string = string.reverse()
+    #     completed_reversed.append(string)
 
     return to_be_completed
 
@@ -109,7 +113,9 @@ def calculate_score(list_to_complete):
         score = 0
         for char in item:
             character = openers[char]
+            # print(f"score = {score}")
             score = (score*5)
+            # print(f"score = {score}")
             if character == ')':
                 score += 1
             if character == ']':
@@ -118,60 +124,20 @@ def calculate_score(list_to_complete):
                 score += 3
             if character == '>':
                 score += 4
+            # print(f"score = {score}")
         scores.append(score)
     
     return scores
 
 print(f"PART 2:")
-print(find_incomplete_lines(example))
-print(calculate_score(find_incomplete_lines(example)))
-
-# Class Test(unittest.TestCase):
-
-#     def test_zer_decimal(self):
-#         actual = isAmount("100")
-#         expected = True
-#         self.assertEqual(actual, expected)
-
-#     def test_empty_string(self):
-#         actual = isAmount("")
-#         expected = False
-#         self.assertEqual(actual, expected)
-
-#     def test_one_decimal(self):
-#         actual = isAmount("1.1")
-#         expected = False
-#         self.assertEqual(actual, expected)
-
-#     def test_alpha(self):
-#         actual = isAmount("Hello. I")
-#         expected = False
-#         self.assertEqual(actual, expected)
-
-#     def test_negative(self):
-#         actual = isAmount("-10")
-#         expected = True
-#         self.assertEqual(actual, expected)
-    
-#     def test_special_char(self):
-#         actual = isAmount("%^^^%.($")
-#         expected = False
-#         self.assertEqual(actual, expected)
-    
-#     def test_two_decimal(self):
-#         actual = isAmount("100.20")
-#         expected = True
-#         self.assertEqual(actual, expected)
-
-#     def test_three_decimal(self):
-#         actual = isAmount("100.200")
-#         expected = False
-#         self.assertEqual(actual, expected)
-
-#     def test_lots_decimals(self):
-#         actual = isAmount("100.2000000000000")
-#         expected = False
-#         self.assertEqual(actual, expected)
-
-
-# unittest.main(verbosity=2)
+# print(find_incomplete_lines(lines))
+scores = (calculate_score(find_incomplete_lines(lines)))
+final_Scores = []
+for score in scores:
+    if score != 0:
+        final_Scores.append(score)
+# print(final_Scores)
+answer = sorted(final_Scores)
+index = len(answer)//2
+# print(index)
+print("answer is", answer[index])
